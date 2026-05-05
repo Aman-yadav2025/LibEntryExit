@@ -1,0 +1,126 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.studentMeta {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-top: .5rem;
+}
+
+.rollBadge {
+  font-size: .72rem;
+  font-weight: 600;
+  font-family: 'Menlo', 'Consolas', monospace;
+  color: var(--grey);
+  background: var(--surface-2);
+  padding: .2rem .6rem;
+  border-radius: var(--r-sm);
+  letter-spacing: .02em;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  flex-shrink: 0;
+}
+
+/* Active session card */
+.activeCard {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+.activeTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.exitPrompt {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--active-bg);
+  border-radius: var(--r);
+  padding: .75rem 1rem;
+  font-size: .875rem;
+  color: var(--active-text);
+  font-weight: 400;
+}
+
+.pendingNote {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .625rem 1rem;
+  background: var(--pending-bg);
+  border-radius: var(--r);
+  font-size: .875rem;
+  color: var(--pending-text);
+  font-weight: 400;
+}
+
+/* Empty state */
+.emptyState {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  border: 1.5px dashed var(--border-dark);
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.emptyIcon {
+  color: var(--border-dark);
+  margin-bottom: 1.25rem;
+}
+
+/* Past sessions */
+.sectionTitle {
+  font-size: .72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--stone);
+  margin-bottom: 1.125rem;
+}
+
+.pastList { display: flex; flex-direction: column; gap: .5rem; }
+
+.pastItem {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-xs);
+}
+
+@media (max-width: 600px) {
+  .header { flex-direction: column; align-items: stretch; gap: 1rem; }
+  .headerActions { flex-wrap: wrap; }
+  .headerActions button, .headerActions a { width: 100%; justify-content: center; }
+  
+  .activeCard { padding: 1.5rem 1rem; }
+  .activeTop { flex-direction: column; align-items: stretch; gap: 1rem; }
+  .activeTop button { width: 100%; justify-content: center; }
+  
+  .pastItem { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1rem; }
+  .pastItem > div:last-child { width: 100%; display: flex; justify-content: flex-end; }
+}

@@ -1,0 +1,93 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.itemsCard {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-sm);
+  padding: 2rem;
+}
+
+.itemsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.375rem;
+}
+
+.sectionLabel {
+  font-size: .72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--stone);
+}
+
+.itemList { display: flex; flex-direction: column; gap: .625rem; }
+
+.item { display: flex; align-items: center; gap: .5rem; }
+
+.typeSelect { flex-shrink: 0; width: 130px; }
+.descInput { flex: 1; }
+
+.removeBtn {
+  width: 32px; height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--stone);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.removeBtn:hover { background: var(--flagged-bg); color: var(--flagged-text); border-color: #F5C5C5; }
+
+/* Info panel */
+.infoCard {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-sm);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.steps { display: flex; flex-direction: column; gap: 1rem; }
+
+.step { display: flex; align-items: flex-start; gap: .875rem; }
+
+.stepNum {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--charcoal);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.userCard {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-xs);
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .typeSelect { width: 110px; }
+}
+
+@media (max-width: 480px) {
+  .itemsCard { padding: 1.5rem 1rem; }
+  .item { flex-direction: column; align-items: stretch; gap: 0.75rem; background: var(--surface-2); padding: 0.75rem; border-radius: var(--r); }
+  .typeSelect { width: 100%; }
+  .descInput { width: 100%; }
+  .removeBtn { align-self: flex-end; width: 100%; }
+  .itemsHeader { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}

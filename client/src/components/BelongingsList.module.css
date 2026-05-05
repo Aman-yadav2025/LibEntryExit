@@ -1,0 +1,111 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.125rem;
+}
+
+.sectionLabel {
+  font-size: .72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--stone);
+}
+
+.chipList { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem 1rem;
+  background: var(--surface-2);
+  border-radius: var(--r);
+  font-size: .875rem;
+  color: var(--charcoal-2);
+  font-weight: 400;
+}
+
+.chipIcon { color: var(--stone); flex-shrink: 0; }
+
+.editList { display: flex; flex-direction: column; gap: .5rem; }
+
+.editRow { display: flex; align-items: center; gap: .5rem; }
+
+.removeBtn {
+  width: 30px; height: 30px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--stone);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.removeBtn:hover { background: var(--flagged-bg); color: var(--flagged-text); border-color: #F5C5C5; }
+
+.editActions {
+  display: flex;
+  gap: .5rem;
+  margin-top: .875rem;
+  flex-wrap: wrap;
+}
+
+/* --- 3-Color Status Handshake Styles --- */
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--r);
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.itemTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.itemMeta {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+/* Status Colors */
+.statusUnchecked {
+  background: var(--flagged-bg); /* Red-ish */
+  border-color: #F5C5C5;
+}
+.statusUnchecked .itemMeta { color: var(--flagged-text); }
+
+.statusChecked {
+  background: #FEF9C3; /* Yellow-ish */
+  border-color: #FDE047;
+}
+.statusChecked .itemMeta { color: #854D0E; }
+
+.statusAck {
+  background: var(--active-bg); /* Green-ish */
+  border-color: #A3C9B3;
+}
+.statusAck .itemMeta { color: var(--active-text); }
+
+.actionArea {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

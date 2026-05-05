@@ -1,0 +1,246 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.bellBtn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: transparent;
+  color: var(--stone);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  position: relative;
+  cursor: pointer;
+}
+
+.bellBtn:hover {
+  background: var(--surface-2);
+  border-color: var(--charcoal);
+  color: var(--charcoal);
+}
+
+.badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--flagged-text);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  height: 15px;
+  min-width: 15px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 44px;
+  width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.125rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.dropdownTitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.markAllBtn {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--grey);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.markAllBtn:hover {
+  color: var(--charcoal);
+}
+
+.list {
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.emptyState {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--stone);
+  font-size: 0.875rem;
+}
+
+.emptySub {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: var(--stone);
+}
+
+.notificationItem {
+  display: flex;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: background 0.12s;
+  position: relative;
+}
+
+.notificationItem:last-child {
+  border-bottom: none;
+}
+
+.notificationItem:hover {
+  background: var(--surface-2);
+}
+
+.unread {
+  background: #FEFCF6; /* Creamy unread tint */
+}
+
+.unreadIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--pending-text);
+  position: absolute;
+  right: 12px;
+  top: 14px;
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.125rem;
+}
+
+.title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time {
+  font-size: 0.68rem;
+  color: var(--stone);
+}
+
+.body {
+  font-size: 0.75rem;
+  color: var(--charcoal-2);
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+/* Status specific left border strips */
+.entry { border-left: 3px solid var(--active-text); }
+.exit { border-left: 3px solid var(--exiting-text); }
+.flag { border-left: 3px solid var(--flagged-text); }
+.general { border-left: 3px solid var(--stone); }
+
+/* ========================================= */
+/* --- MOBILE RESPONSIVENESS (< 640px) --- */
+/* ========================================= */
+
+@media (max-width: 640px) {
+  .dropdown {
+    /* Detach from the bell icon and float it nicely on the screen */
+    position: fixed;
+    top: 70px; /* Sits right below the mobile navbar */
+    left: 1rem;
+    right: 1rem;
+    width: auto; /* Take up the remaining screen width */
+    max-width: none;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
+    z-index: 101;
+  }
+
+  .dropdownHeader {
+    padding: 1rem; /* Slightly larger touch target */
+  }
+
+  .list {
+    /* Ensure the list doesn't grow taller than the mobile screen */
+    max-height: calc(100vh - 150px); 
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+
+  .notificationItem {
+    padding: 1rem; /* Better spacing for thumbs */
+  }
+
+  .title {
+    font-size: 0.85rem; /* Slightly larger for readability */
+    white-space: normal; /* Allow long titles to wrap on tiny screens */
+  }
+
+  .body {
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+  }
+}

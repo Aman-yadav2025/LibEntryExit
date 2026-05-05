@@ -1,0 +1,225 @@
+/* ========================================= */
+/* --- Header & Top Actions --- */
+/* ========================================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ========================================= */
+/* --- Filters & Search Bar --- */
+/* ========================================= */
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--surface);
+  padding: 0.75rem;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--stone);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding-left: 2.25rem !important;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.filterSelect {
+  width: 160px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+/* Mobile responsive filters */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filterSelect {
+    width: 100%;
+  }
+}
+
+/* ========================================= */
+/* --- Record List Layout (Expandable Cards) --- */
+/* ========================================= */
+
+.recordList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.recordCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.recordCard:hover {
+  border-color: var(--border-dark);
+}
+
+/* Collapsed Header State */
+.recordHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: var(--surface);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.studentName {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+.rollChip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--grey);
+  background: var(--surface-2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.entryTime {
+  font-size: 0.8rem;
+  color: var(--stone);
+  text-align: right;
+}
+
+.entryLabel {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+}
+
+.caret {
+  color: var(--stone);
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Expanded Detail State */
+.recordDetails {
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+  padding: 1.25rem;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detailLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--stone);
+}
+
+.detailValue {
+  font-size: 0.85rem;
+  color: var(--charcoal-2);
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--stone);
+  margin-bottom: 0.75rem;
+}
+
+.belongingGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.belongingChip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  font-size: 0.8rem;
+  color: var(--charcoal);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--stone);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  margin-top: 1.5rem;
+}
