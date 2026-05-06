@@ -289,7 +289,7 @@ router.put('/:id/belongings/approve-all', restrictTo('guard'), async (req: AuthR
     const studentId = session.student.toString();
 
     // Map through and update all unchecked/new items to 'checked_by_guard'
-    session.belongings.forEach((item) => {
+    session.belongings.forEach((item: any) => {
       if (item.status === 'unchecked' || !item.status) {
         item.status = 'checked_by_guard';
         updatedCount++;
@@ -323,7 +323,7 @@ router.put('/:id/belongings/acknowledge-all', restrictTo('student'), async (req:
     let updatedCount = 0;
 
     // Map through and update all guard-checked items to 'acknowledged'
-    session.belongings.forEach((item) => {
+    session.belongings.forEach((item: any) => {
       if (item.status === 'checked_by_guard') {
         item.status = 'acknowledged';
         updatedCount++;
