@@ -10,7 +10,12 @@ connectDB()
   .then(() => {
     console.log('✅ Connected to MongoDB Atlas');
     app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
+      // Small tweak: Make the log smarter based on where it is running!
+      if (process.env.NODE_ENV === 'production') {
+        console.log(`🚀 Server running live on port ${PORT}`);
+      } else {
+        console.log(`🚀 Server running locally at http://localhost:${PORT}`);
+      }
     });
   })
   .catch((err) => {

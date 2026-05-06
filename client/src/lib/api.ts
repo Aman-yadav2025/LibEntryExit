@@ -2,7 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-  baseURL: '/api',
+  // Use the live URL if on Vercel, otherwise fallback to local Next.js '/api' proxy
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL || ''}/api`,
 });
 
 api.interceptors.request.use((config) => {
