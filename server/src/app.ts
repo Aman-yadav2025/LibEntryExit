@@ -8,19 +8,20 @@ import notificationRoutes from './routes/notifications';
 const app = express();
 
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://lib-entry-exit.vercel.app' // ✨ Your exact Vercel URL
+  ],
   credentials: true,
 }));
+
 app.use(express.json());
 
+// Cleaned up duplicate routes!
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/push', pushRoutes);
-// 2. Register it below other routes around line 20
-app.use('/api/auth', authRoutes);
-app.use('/api/sessions', sessionRoutes);
-app.use('/api/push', pushRoutes);
-app.use('/api/notifications', notificationRoutes); // <-- ADD THIS LINE
+app.use('/api/notifications', notificationRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
