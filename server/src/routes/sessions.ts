@@ -402,4 +402,57 @@ router.put('/:id/belongings/:itemId/status', async (req: AuthRequest, res: Respo
   }
 });
 
+// PUT /api/sessions/:id/recheck — Guard marks a flagged session as rechecked
+router.put('/:id/recheck', restrictTo('guard'), async (req: AuthRequest, res: Response) => {
+  try {
+    const session = await Session.findByIdAndUpdate(
+      req.params.id,
+      { status: 'exiting', flagNotes: 'Recheck complete: Awaiting student acknowledgment' },
+      { new: true }
+    ).populate('student', 'name email rollNumber department');
+
+    if (!session) return res.status(404).json({ message: 'Session not found' });
+
+    const studentId = (session.student as any)._id || session.student;
+
+    // Create Notification
+    await Notification.create({
+      student: studentId,
+      title: '🔄 Recheck Complete',
+      body: 'The guard has cleared your belongings recheck. Please acknowledge to complete your exit.',
+      type: 'exit'
+    });
+
+    sendPush(studentId, '🔄 Recheck Complete', 'Tap to acknowledge and complete your exit.').catch(console.error);
+
+    res.json({ session });
+  } catch (err: any) {
+    res.status(500).json({ message: 'Failed to process recheck', error: err.message });
+  }
+});
+
+// PUT /api/sessions/:id/recheck-acknowledge — Student acknowledges recheck, completing the session
+router.put('/:id/recheck-acknowledge', restrictTo('student'), async (req: AuthRequest, res: Response) => {
+  try {
+    const session = await Session.findOneAndUpdate(
+      { _id: req.params.id, student: req.user!._id },
+      { status: 'completed', exitTime: new Date() },
+      { new: true }
+    );
+
+    if (!session) return res.status(404).json({ message: 'Session not found' });
+
+    await Notification.create({
+      student: req.user!._id,
+      title: '🚪 Safe Library Exit',
+      body: 'Your recheck acknowledgment is complete. Session closed!',
+      type: 'exit'
+    });
+
+    res.json({ session });
+  } catch (err: any) {
+    res.status(500).json({ message: 'Failed to acknowledge recheck', error: err.message });
+  }
+});
+
 export default router;

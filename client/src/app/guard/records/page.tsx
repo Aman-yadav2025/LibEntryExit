@@ -29,6 +29,9 @@ const dur = (e?: string, x?: string) => {
   return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m`;
 };
 
+// Helper to get today's date in YYYY-MM-DD format based on local timezone
+const getTodayString = () => new Date().toLocaleDateString('en-CA');
+
 export default function GuardRecordsPage() {
   const { user } = useAuthStore();
   const router = useRouter();
@@ -36,7 +39,8 @@ export default function GuardRecordsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  const [dateFilter, setDateFilter] = useState('');
+  // Initialize date filter with today's date
+  const [dateFilter, setDateFilter] = useState<string>(getTodayString());
   const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
@@ -57,6 +61,20 @@ export default function GuardRecordsPage() {
   }, [search, statusFilter, dateFilter]);
 
   useEffect(() => { const t = setTimeout(fetchRecords, 350); return () => clearTimeout(t); }, [fetchRecords]);
+
+  // Handle the transition of a flagged session to rechecked status
+  const handleMarkRechecked = async (sessionId: string, event: React.MouseEvent) => {
+    event.stopPropagation(); // Avoid triggering details card collapse
+    if (!window.confirm('Are you sure you want to mark this flagged session as rechecked?')) return;
+    
+    try {
+      await api.put(`/sessions/${sessionId}/recheck`);
+      fetchRecords(); // Reload the data
+    } catch (err) {
+      console.error('Failed to submit recheck status:', err);
+      alert('Failed to process recheck. Please check console logs.');
+    }
+  };
 
   return (
     <div className="page">
@@ -107,7 +125,7 @@ export default function GuardRecordsPage() {
         )}
       </motion.div>
 
-      {/* List Layout (Replaces Table) */}
+      {/* List Layout */}
       {loading ? (
         <div style={{ textAlign: 'center', padding: '4rem' }}>
           <div className="spinner spinner-dark" style={{ margin: '0 auto' }} />
@@ -125,7 +143,8 @@ export default function GuardRecordsPage() {
             const isExpanded = expanded === s._id;
 
             return (
-              <div key={s._id} className={styles.recordCard}>
+              /* ✨ Dynamic global class 'card-theme-[status]' added here to dye the entire card background */
+              <div key={s._id} className={`${styles.recordCard} card-theme-${s.status}`}>
                 {/* Collapsed Header Row */}
                 <div 
                   className={styles.recordHeader} 
@@ -205,12 +224,43 @@ export default function GuardRecordsPage() {
                         </div>
                       )}
 
-                      {/* Flag Notes */}
+                      {/* Flag Notes & Recheck Actions */}
                       {s.flagNotes && (
                         <div style={{ marginTop: '1.25rem' }}>
-                          <div className={styles.sectionLabel}>Flag Notes</div>
-                          <div className="alert alert-error" style={{ padding: '0.5rem 0.875rem', fontSize: '0.8rem' }}>
-                            <AlertTriangle size={13} strokeWidth={1.5} /> {s.flagNotes}
+                          <div className={styles.sectionLabel}>Flag Notes & Resolution</div>
+                          <div 
+                            className="alert alert-error" 
+                            style={{ 
+                              padding: '0.75rem 1rem', 
+                              fontSize: '0.8rem',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              gap: '0.75rem'
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <AlertTriangle size={13} strokeWidth={1.5} style={{ flexShrink: 0 }} /> 
+                              <span>{s.flagNotes}</span>
+                            </div>
+
+                            {s.status === 'flagged' && (
+                              <motion.button
+                                whileTap={{ scale: 0.95 }}
+                                className="btn btn-primary btn-sm"
+                                style={{ 
+                                  padding: '0.35rem 0.75rem', 
+                                  fontSize: '0.75rem', 
+                                  lineHeight: '1rem',
+                                  textTransform: 'none',
+                                  letterSpacing: 'normal'
+                                }}
+                                onClick={(e) => handleMarkRechecked(s._id, e)}
+                              >
+                                Mark Rechecked
+                              </motion.button>
+                            )}
                           </div>
                         </div>
                       )}

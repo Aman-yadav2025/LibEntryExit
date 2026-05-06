@@ -84,11 +84,12 @@
 }
 
 .recordCard {
-  background: var(--surface);
+  /* Removed hardcoded white background so it can inherit card-theme-[status] color */
+  background: transparent; 
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 
 .recordCard:hover {
@@ -102,7 +103,14 @@
   justify-content: space-between;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: var(--surface);
+  /* Switched to transparent to let the inherited status color show through */
+  background: transparent; 
+  transition: background-color 0.15s ease;
+}
+
+.recordHeader:hover {
+  /* Subtle hover overlay that looks great on any colored background */
+  background-color: rgba(0, 0, 0, 0.02); 
 }
 
 .headerLeft {
@@ -121,7 +129,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--grey);
-  background: var(--surface-2);
+  background: rgba(0, 0, 0, 0.05); /* Made transparent-based so it matches green/yellow/red backgrounds perfectly */
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
   display: inline-block;
@@ -136,7 +144,7 @@
 
 .entryTime {
   font-size: 0.8rem;
-  color: var(--stone);
+  color: var(--grey); /* Made slightly darker than stone for better readability on light backgrounds */
   text-align: right;
 }
 
@@ -157,8 +165,9 @@
 
 /* Expanded Detail State */
 .recordDetails {
-  border-top: 1px solid var(--border);
-  background: #fafafa;
+  border-top: 1px solid rgba(0, 0, 0, 0.08); /* Transparent-based line */
+  /* Keeps the expanded info section slightly distinguished using an overlay */
+  background: rgba(255, 255, 255, 0.4); 
   padding: 1.25rem;
 }
 
@@ -180,7 +189,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--stone);
+  color: var(--grey);
 }
 
 .detailValue {
@@ -193,7 +202,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--stone);
+  color: var(--grey);
   margin-bottom: 0.75rem;
 }
 

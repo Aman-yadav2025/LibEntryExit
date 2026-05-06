@@ -13,17 +13,26 @@
   --border:        #E8E5DF;   /* Subtle lines */
   --border-dark:   #D0CCC4;   /* Input outlines */
 
-  /* Status — desaturated, editorial */
-  --pending-text:   #856005;
-  --pending-bg:     #FBF7EE;
-  --active-text:    #1A5C3A;
-  --active-bg:      #EAF4EE;
-  --exiting-text:   #3D3F5C;
-  --exiting-bg:     #EEEEF5;
-  --completed-text: #6B6B6B;
-  --completed-bg:   #F4F4F2;
-  --flagged-text:   #8B1A1A;
-  --flagged-bg:     #FEEEED;
+  /* Status — modern, clear themes */
+  --pending-text:   #475569;
+  --pending-bg:     #F8FAFC;
+  --pending-border: #E2E8F0;
+
+  --active-text:    #854D0E;  /* Yellowish theme (In-Library) */
+  --active-bg:      #FEFCE8;
+  --active-border:  #FEF08A;
+
+  --exiting-text:   #9A3412;  
+  --exiting-bg:     #FFF7ED;
+  --exiting-border: #FFEDD5;
+
+  --completed-text: #166534;  /* Green theme */
+  --completed-bg:   #F0FDF4;
+  --completed-border: #DCFCE7;
+
+  --flagged-text:   #991B1B;  /* Reddish theme */
+  --flagged-bg:     #FEF2F2;
+  --flagged-border: #FEE2E2;
 
   /* Radius */
   --r-sm: 6px;
@@ -133,7 +142,7 @@ p { color: var(--charcoal-2); font-weight: 400; }
 .btn-danger {
   background: var(--flagged-bg);
   color: var(--flagged-text);
-  border: 1px solid #F5C5C5;
+  border: 1px solid var(--flagged-border);
 }
 .btn-danger:hover:not(:disabled) {
   background: #FDDCDC;
@@ -184,29 +193,59 @@ p { color: var(--charcoal-2); font-weight: 400; }
 }
 .form-select:focus { border-color: var(--charcoal); box-shadow: 0 0 0 3px rgba(26,26,26,.08); }
 
-/* ── Status Badges ── */
+/* ── Status Badges (With Strict !important Overrides) ── */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  padding: .25rem .7rem;
-  border-radius: 999px;
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .375rem !important;
+  padding: .25rem .75rem !important;
+  border-radius: 999px !important;
+  font-size: .72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .025em !important;
+  text-transform: uppercase !important;
 }
-.badge-pending   { background: var(--pending-bg);   color: var(--pending-text);   }
-.badge-active    { background: var(--active-bg);    color: var(--active-text);    }
-.badge-exiting   { background: var(--exiting-bg);   color: var(--exiting-text);   }
-.badge-completed { background: var(--completed-bg); color: var(--completed-text); }
-.badge-flagged   { background: var(--flagged-bg);   color: var(--flagged-text);   }
+
+.badge-pending { 
+  background: var(--pending-bg) !important; 
+  color: var(--pending-text) !important; 
+  border: 1px solid var(--pending-border) !important; 
+}
+.badge-active { 
+  background: var(--active-bg) !important; 
+  color: var(--active-text) !important; 
+  border: 1px solid var(--active-border) !important; 
+}
+.badge-exiting { 
+  background: var(--exiting-bg) !important; 
+  color: var(--exiting-text) !important; 
+  border: 1px solid var(--exiting-border) !important; 
+}
+.badge-completed { 
+  background: var(--completed-bg) !important; 
+  color: var(--completed-text) !important; 
+  border: 1px solid var(--completed-border) !important; 
+}
+.badge-flagged { 
+  background: var(--flagged-bg) !important; 
+  color: var(--flagged-text) !important; 
+  border: 1px solid var(--flagged-border) !important; 
+}
+
 .badge-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  display: inline-block;
+  width: 6px !important; 
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: currentColor !important;
+  display: inline-block !important;
 }
+
+/* Force vibrant colors on the inner status indicators */
+.badge-pending .badge-dot   { background-color: #94A3B8 !important; }
+.badge-active .badge-dot    { background-color: #EAB308 !important; }
+.badge-exiting .badge-dot   { background-color: #F97316 !important; }
+.badge-completed .badge-dot { background-color: #22C55E !important; }
+.badge-flagged .badge-dot   { background-color: #EF4444 !important; }
 
 /* ── Table ── */
 .table-wrap {
@@ -248,9 +287,9 @@ tbody tr:hover { background: var(--surface-2); }
   align-items: flex-start;
   gap: .625rem;
 }
-.alert-error   { background: var(--flagged-bg);  color: var(--flagged-text); }
-.alert-success { background: var(--active-bg);   color: var(--active-text);  }
-.alert-info    { background: var(--exiting-bg);  color: var(--exiting-text); }
+.alert-error   { background: var(--flagged-bg) !important;  color: var(--flagged-text) !important; border: 1px solid var(--flagged-border) !important; }
+.alert-success { background: var(--completed-bg) !important; color: var(--completed-text) !important; border: 1px solid var(--completed-border) !important; }
+.alert-info    { background: var(--pending-bg) !important;   color: var(--pending-text) !important; border: 1px solid var(--pending-border) !important; }
 
 /* ── Utilities ── */
 .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
@@ -309,4 +348,36 @@ tbody tr:hover { background: var(--surface-2); }
   .card, .card-flat { padding: 1rem; }
   .alert { padding: 0.75rem 1rem; font-size: 0.8125rem; }
   .badge { padding: 0.2rem 0.5rem; font-size: 0.65rem; }
+}
+
+/* ── Dynamic Card Background Themes ── */
+
+/* 1. FLAGGED - Soft Reddish Card */
+.card-theme-flagged {
+  background-color: var(--flagged-bg) !important;
+  border: 1px solid var(--flagged-border) !important;
+}
+
+/* 2. COMPLETED - Soft Greenish Card */
+.card-theme-completed {
+  background-color: var(--completed-bg) !important;
+  border: 1px solid var(--completed-border) !important;
+}
+
+/* 3. ACTIVE (In-Library) - Soft Yellowish Card */
+.card-theme-active {
+  background-color: var(--active-bg) !important;
+  border: 1px solid var(--active-border) !important;
+}
+
+/* 4. PENDING - Soft Slate Grey Card */
+.card-theme-pending {
+  background-color: var(--pending-bg) !important;
+  border: 1px solid var(--pending-border) !important;
+}
+
+/* 5. EXITING - Soft Orange Card */
+.card-theme-exiting {
+  background-color: var(--exiting-bg) !important;
+  border: 1px solid var(--exiting-border) !important;
 }

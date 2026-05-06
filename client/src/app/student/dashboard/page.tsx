@@ -54,12 +54,32 @@ export default function StudentDashboard() {
 
   const handleConfirmExit = async (sessionId: string) => {
     setConfirmingExit(sessionId);
-    try { await api.put(`/sessions/${sessionId}/exit-confirm`); fetchSessions(); }
-    finally { setConfirmingExit(null); }
+    try { 
+      await api.put(`/sessions/${sessionId}/exit-confirm`); 
+      fetchSessions(); 
+    } catch (err) {
+      console.error('Failed standard exit confirmation:', err);
+      alert('Exit confirmation failed.');
+    } finally { 
+      setConfirmingExit(null); 
+    }
   };
 
-  const active = sessions.find((s) => ['active', 'exiting', 'pending'].includes(s.status));
-  const past = sessions.filter((s) => ['completed', 'flagged'].includes(s.status));
+  const handleConfirmRecheck = async (sessionId: string) => {
+    setConfirmingExit(sessionId);
+    try {
+      await api.put(`/sessions/${sessionId}/recheck-acknowledge`);
+      fetchSessions();
+    } catch (err) {
+      console.error('Failed to acknowledge recheck:', err);
+      alert('Acknowledgment failed.');
+    } finally {
+      setConfirmingExit(null);
+    }
+  };
+
+  const active = sessions.find((s) => ['active', 'exiting', 'pending', 'flagged'].includes(s.status));
+  const past = sessions.filter((s) => ['completed'].includes(s.status) || (s.status === 'flagged' && s._id !== active?._id));
 
   if (!user) return null;
 
@@ -93,7 +113,8 @@ export default function StudentDashboard() {
         ) : active ? (
           <motion.div
             key="active"
-            className={styles.activeCard}
+            /* ✨ Dynamically dyes the active card container background based on status */
+            className={`${styles.activeCard} card-theme-${active.status}`}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -117,16 +138,35 @@ export default function StudentDashboard() {
                   animate={{ opacity: 1, scale: 1 }}
                 >
                   <LogOut size={15} strokeWidth={1.5} />
-                  <span>Guard has initiated your exit — please confirm</span>
-                  <motion.button
-                    id="confirm-exit-btn"
-                    whileTap={{ scale: 0.96 }}
-                    className={`btn btn-primary btn-sm`}
-                    disabled={confirmingExit === active._id}
-                    onClick={() => handleConfirmExit(active._id)}
-                  >
-                    {confirmingExit === active._id ? <><div className="spinner" />Confirming</> : <>Confirm Exit</>}
-                  </motion.button>
+                  
+                  {active.flagNotes?.includes('Recheck') ? (
+                    <>
+                      <span>Recheck cleared! Please acknowledge to complete your session.</span>
+                      <motion.button
+                        id="confirm-recheck-btn"
+                        whileTap={{ scale: 0.96 }}
+                        className="btn btn-primary btn-sm"
+                        style={{ backgroundColor: 'var(--completed-text)' }}
+                        disabled={confirmingExit === active._id}
+                        onClick={() => handleConfirmRecheck(active._id)}
+                      >
+                        {confirmingExit === active._id ? <div className="spinner" /> : 'Acknowledge Exit'}
+                      </motion.button>
+                    </>
+                  ) : (
+                    <>
+                      <span>Guard has initiated your exit — please confirm</span>
+                      <motion.button
+                        id="confirm-exit-btn"
+                        whileTap={{ scale: 0.96 }}
+                        className={`btn btn-primary btn-sm`}
+                        disabled={confirmingExit === active._id}
+                        onClick={() => handleConfirmExit(active._id)}
+                      >
+                        {confirmingExit === active._id ? <><div className="spinner" />Confirming</> : <>Confirm Exit</>}
+                      </motion.button>
+                    </>
+                  )}
                 </motion.div>
               )}
 
@@ -172,13 +212,15 @@ export default function StudentDashboard() {
             {past.map((s, i) => (
               <motion.div
                 key={s._id}
-                className={styles.pastItem}
+                /* ✨ Dynimcally dyes past visit container box background on status */
+                className={`${styles.pastItem} card-theme-${s.status}`}
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + i * 0.06 }}
               >
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 size={15} strokeWidth={1.5} style={{ color: s.status === 'flagged' ? 'var(--flagged-text)' : 'var(--active-text)', flexShrink: 0 }} />
+                  <CheckCircle2 size={15} strokeWidth={1.5} style={{ color: s.status === 'flagged' ? 'var(--flagged-text)' : 'var(--completed-text)', flexShrink: 0 }} />
                   <div>
                     <p className="text-sm font-medium" style={{ color: 'var(--charcoal)' }}>
                       {new Date(s.createdAt).toLocaleDateString('en-IE', { day: 'numeric', month: 'long', year: 'numeric' })}
