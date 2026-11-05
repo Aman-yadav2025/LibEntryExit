@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: setu-library-server
+    runtime: node
+    region: frankfurt  # closest to Ireland (SETU)
+    plan: free
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false   # fill in Render dashboard
+      - key: JWT_SECRET
+        sync: false   # fill in Render dashboard
+      - key: CLIENT_URL
+        sync: false   # your Vercel URL — fill in after Vercel deploy
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+

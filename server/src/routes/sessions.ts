@@ -149,7 +149,7 @@ router.put('/:id/belongings', restrictTo('student'), async (req: AuthRequest, re
       return res.status(400).json({ message: 'Cannot edit belongings at this stage' });
     }
 
-    console.log("--- START BELONGINGS UPDATE ---");
+    console.log("--- START BELONGINGS UPDATE (dev only) ---");
 
     // Map over incoming items from the frontend editing panel
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

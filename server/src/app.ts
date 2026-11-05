@@ -7,11 +7,24 @@ import notificationRoutes from './routes/notifications';
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://lib-entry-exit.vercel.app',
+  ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL.trim().replace(/\/$/, '')] : []),
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://lib-entry-exit.vercel.app' // ✨ Your exact Vercel URL
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. curl / server-side Next.js rewrites)
+    if (!origin) return callback(null, true);
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app')
+    ) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
   credentials: true,
 }));
 
