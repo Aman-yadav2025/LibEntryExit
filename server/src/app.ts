@@ -9,7 +9,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://lib-entry-exit.vercel.app',
+  'https://lib-entry-exit.vercel.app',   // update this after Vercel deploys
   ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL.trim().replace(/\/$/, '')] : []),
 ];
 
